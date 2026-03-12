@@ -462,7 +462,7 @@ const StatCard = ({ label, value, sub, color, t }) => (
 
 // ─── MAIN APP ─────────────────────────────────────────────────────────────────
 export default function ASXAnalyzer() {
-  const [themeKey,    setThemeKey]    = useState("dark");
+  const [themeKey,    setThemeKey]    = useState("light");
   const [selected,    setSelected]    = useState(ASX_STOCKS[0]);
   const [search,      setSearch]      = useState("");
   const [customCode,  setCustomCode]  = useState("");
