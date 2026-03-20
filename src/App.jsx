@@ -478,13 +478,31 @@ export default function ASXAnalyzer() {
   const [apiStatus,   setApiStatus]   = useState("checking");
   const [lastUpdated, setLastUpdated] = useState(null);
   const [view,        setView]        = useState("chart");  // "chart" | "portfolio" | "alerts"
-  const [portfolio,   setPortfolio]   = useState([]);       // [{code, name, qty, buyPrice}]
-  const [alerts,      setAlerts]      = useState([]);       // [{code, type, price, triggered}]
+  const [portfolio, setPortfolio] = useState(() => {
+  try {
+    const saved = localStorage.getItem("asx_portfolio");
+    return saved ? JSON.parse(saved) : [];
+  } catch { return []; }
+});
+const [alerts, setAlerts] = useState(() => {
+  try {
+    const saved = localStorage.getItem("asx_alerts");
+    return saved ? JSON.parse(saved) : [];
+  } catch { return []; }
+});
   const [alertForm,   setAlertForm]   = useState({ type: "above", price: "" });
   const [news,        setNews]        = useState([]);
   const [sectorFilter,setSectorFilter]= useState("All");
 
   const t = THEMES[themeKey];
+// Persist portfolio and alerts to localStorage whenever they change
+useEffect(() => {
+  localStorage.setItem("asx_portfolio", JSON.stringify(portfolio));
+}, [portfolio]);
+
+useEffect(() => {
+  localStorage.setItem("asx_alerts", JSON.stringify(alerts));
+}, [alerts]);
 
   const sectors = ["All", ...Array.from(new Set(ASX_STOCKS.map(s => s.sector))).sort()];
   const filtered = ASX_STOCKS.filter(s =>
