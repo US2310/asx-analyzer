@@ -740,7 +740,18 @@ export default function ASXAnalyzer() {
                                 <input type="number" value={p.qty} onChange={e => setPortfolio(prev => prev.map(x => x.code === p.code ? {...x, qty: +e.target.value} : x))}
                                   style={{ ...S.input, width: 70, fontFamily: "monospace" }} />
                               </td>
-                              <td style={{ padding: "10px 12px", fontFamily: "monospace" }}>A${p.buyPrice.toFixed(3)}</td>
+                              <td style={{ padding: "10px 12px" }}>
+  <input
+    type="number"
+    value={p.buyPrice}
+    step="0.001"
+    min="0"
+    onChange={e => setPortfolio(prev => prev.map(x =>
+      x.code === p.code ? { ...x, buyPrice: parseFloat(e.target.value) || 0 } : x
+    ))}
+    style={{ ...S.input, width: 90, fontFamily: "monospace" }}
+  />
+</td>
                               <td style={{ padding: "10px 12px", fontFamily: "monospace" }}>A${curr.toFixed(3)}</td>
                               <td style={{ padding: "10px 12px", fontFamily: "monospace" }}>A${(curr * p.qty).toFixed(2)}</td>
                               <td style={{ padding: "10px 12px", fontFamily: "monospace", color: pnl >= 0 ? t.green : t.red }}>
